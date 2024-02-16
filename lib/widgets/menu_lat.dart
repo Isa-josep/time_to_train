@@ -30,36 +30,35 @@ class _SideMenuState extends State<SideMenu> {
       children:  [
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch?0:20, 16, 10),
-          child: Text("Main", style: Theme.of(context).textTheme.titleLarge),
+          child: Text("Hola", style: Theme.of(context).textTheme.titleLarge), //*agregar name del user
         ),
 
 
         ...appMenuItems
-        .sublist(0,3)
+        .sublist(0,3) 
         .map((item) =>  
          NavigationDrawerDestination(
           icon: Icon(item.icon),
           label: Text(item.title),
           ),
-
         ),
        const  Padding(
           padding:  EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Divider(), // ** crea una linea divisora 
           ),
-
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 10, 16, 10),
-          child: Text("More Opcions", style: Theme.of(context).textTheme.titleMedium),
+          child: Text("More Opcions", 
+          style: Theme.of(context).textTheme.titleMedium
+          ),
         ),
         ...appMenuItems
-        .sublist(3)
+        .sublist(3) 
         .map((item) =>  
          NavigationDrawerDestination(
           icon: Icon(item.icon),
           label: Text(item.title),
           ),
-
         ),
       ],
     );

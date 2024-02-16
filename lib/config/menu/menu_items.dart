@@ -22,6 +22,34 @@ const appMenuItems = <MenuItem>[
     link: '/',
     icon: Icons.home,
   ),
+
+  MenuItem(
+    title: 'Inicio',
+    subTitle: 'Página principal',
+    link: '/',
+    icon: Icons.home,
+  ),
+
+  MenuItem(
+    title: 'Inicio',
+    subTitle: 'Página principal',
+    link: '/',
+    icon: Icons.home,
+  ),
+
+  MenuItem(
+    title: 'Inicio',
+    subTitle: 'Página principal',
+    link: '/',
+    icon: Icons.home,
+  ),
+
+  MenuItem(
+    title: 'Inicio',
+    subTitle: 'Página principal',
+    link: '/',
+    icon: Icons.home,
+  ),
   
   
 ];
