@@ -15,8 +15,15 @@ class HomeView extends StatelessWidget {
           SizedBox(width: 10,)
         ],
       ),
-      body: const Center(
-        child: HorizontalCardView()
+      body: const Padding(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
+          children: [
+            HorizontalCardView(),
+            SizedBox(height: 15,),
+            HorizontalCardView()
+          ],
+        ),
       ),
     );
   }
