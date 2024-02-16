@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 class HorizontalCardView extends StatelessWidget {
   const HorizontalCardView({super.key});
@@ -6,7 +7,7 @@ class HorizontalCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return  SizedBox(
-      height: 350,
+      height: 150,
       child: Column(
         children: [
           Expanded(
@@ -16,9 +17,9 @@ class HorizontalCardView extends StatelessWidget {
               itemCount: 15,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context,index){
-                return const SizedBox(
+                return  SizedBox(
                   width: 250,
-                  child: CardView(),
+                  child: FadeInLeft(child: const CardView()),
                 );
               }
             )
@@ -57,8 +58,10 @@ class CardView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:[
                       Text("Titulo", 
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
-                      ),
+                      style: TextStyle(
+                        fontSize: 20, 
+                        fontWeight: FontWeight.bold
+                      )),
                       Text("Subtitulo",)
                     ],
                   )
