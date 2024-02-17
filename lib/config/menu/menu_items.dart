@@ -45,10 +45,10 @@ const appMenuItems = <MenuItem>[
   ),
 
   MenuItem(
-    title: 'Inicio',
-    subTitle: 'Página principal',
-    link: '/',
-    icon: Icons.home,
+    title: 'Custom theme',
+    subTitle: 'Cambar el tema de la app',
+    link: '/theme_changer_screen',
+    icon: Icons.color_lens_outlined,
   ),
   
   
