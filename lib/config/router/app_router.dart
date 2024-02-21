@@ -13,5 +13,10 @@ final appRouter = GoRouter(
       path: '/theme_changer_screen',
       builder: (context, state) => const ThemeChangerScreen(),
     ),
+
+    GoRoute(
+      path: '/graphic_screen',
+      builder: (context, state) => const GraphScreen(),
+    )
   ],
 );
