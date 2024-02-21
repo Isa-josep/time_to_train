@@ -30,7 +30,7 @@ class _SideMenuState extends State<SideMenu> {
       children:  [
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch?0:20, 16, 10),
-          child: Text("Hola Isauro", style: Theme.of(context).textTheme.titleMedium), //*agregar name del user
+          child: Text("Hola Isa", style: Theme.of(context).textTheme.titleMedium), //*agregar name del user
         ),
 
 
