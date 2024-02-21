@@ -13,6 +13,7 @@ dependencies:
   flutter_riverpod: ^2.4.10
   go_router: ^13.2.0
   google_fonts: ^6.1.0
+  graphic: ^2.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
