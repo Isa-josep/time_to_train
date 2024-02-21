@@ -31,10 +31,10 @@ const appMenuItems = <MenuItem>[
   ),
 
   MenuItem(
-    title: 'Inicio',
-    subTitle: 'Página principal',
-    link: '/',
-    icon: Icons.home,
+    title: 'Grafica',
+    subTitle: 'Grafica de avanzes',
+    link: '/graphic_screen',
+    icon: Icons.bar_chart_outlined,
   ),
 
   MenuItem(
