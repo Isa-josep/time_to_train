@@ -1,11 +1,17 @@
 import 'package:go_router/go_router.dart';
-import 'package:time_to_train/presentation/screens.dart';
+import 'package:time_to_train/features/presentation/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
+
     GoRoute(
       path: '/',
+      builder: (context, state) => const LoginScreen(),
+    ),
+
+    GoRoute(
+      path: '/home_view',
       builder: (context, state) => const HomeView(),
     ),
 

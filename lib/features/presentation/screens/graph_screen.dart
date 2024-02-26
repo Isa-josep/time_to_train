@@ -33,7 +33,7 @@ class AnimationPageState extends State<GraphScreen> {
         onPressed: () => setState(() {
           rebuild = true;
         }),
-        child: Icon(Icons.refresh),
+        child: const Icon(Icons.refresh),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -85,7 +85,7 @@ class AnimationPageState extends State<GraphScreen> {
                       color: ColorEncode(
                           variable: 'genre', values: Defaults.colors10),
                       modifiers: [StackModifier()],
-                      transition: Transition(duration: Duration(seconds: 2)),
+                      transition: Transition(duration: const Duration(seconds: 2)),
                       entrance: {MarkEntrance.y},
                     )
                   ],

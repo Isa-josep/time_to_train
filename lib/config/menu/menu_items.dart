@@ -19,14 +19,14 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Inicio',
     subTitle: 'Página principal',
-    link: '/',
+    link: '/home_view',
     icon: Icons.home,
   ),
 
   MenuItem(
     title: 'Inicio',
     subTitle: 'Página principal',
-    link: '/',
+    link: '/home_view',
     icon: Icons.home,
   ),
 
@@ -40,7 +40,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Inicio',
     subTitle: 'Página principal',
-    link: '/',
+    link: '/home_view',
     icon: Icons.home,
   ),
 
