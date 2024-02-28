@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
-
+    final textStyles = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -24,7 +24,17 @@ class LoginScreen extends StatelessWidget {
           
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox( height: 80 ),
+              const SizedBox( height: 40 ),
+
+               Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    
+                    const Spacer(flex: 1),
+                    Text('name de la app', style: textStyles.titleLarge?.copyWith(color: Colors.white )),
+                    const Spacer(flex: 2),
+                  ],
+                ),
               // Icon Banner
               const Icon( 
                 Icons.fitness_center,
