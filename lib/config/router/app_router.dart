@@ -23,6 +23,11 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/graphic_screen',
       builder: (context, state) => const GraphScreen(),
-    )
+    ),
+
+    GoRoute(
+      path: '/register_screen',
+      builder: (context, state) => const RegisterScreen(),
+    ),
   ],
 );
