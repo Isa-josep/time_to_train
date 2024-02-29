@@ -1,4 +1,4 @@
-import 'dart:math' show pi;
+//import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 
 class GymBackground extends StatelessWidget {
@@ -94,7 +94,7 @@ class _Dumbbell extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Icon(Icons.fitness_center, color: Colors.black),
+      child: const Icon(Icons.fitness_center, color: Colors.black),
     );
   }
 }
@@ -113,7 +113,7 @@ class _WeightScale extends StatelessWidget {
         color: Colors.grey[300],
         shape: BoxShape.circle,
       ),
-      child: Icon(Icons.scale, color: Colors.black),
+      child: const Icon(Icons.scale, color: Colors.black),
     );
   }
 }
@@ -132,7 +132,7 @@ class _Treadmill extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Icon(Icons.directions_walk, color: Colors.black),
+      child: const Icon(Icons.directions_walk, color: Colors.black),
     );
   }
 }
@@ -151,7 +151,7 @@ class _YogaMat extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Icon(Icons.spa, color: Colors.black),
+      child: const Icon(Icons.spa, color: Colors.black),
     );
   }
 }
@@ -170,7 +170,7 @@ class _WaterBottle extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Icon(Icons.local_drink, color: Colors.black),
+      child: const Icon(Icons.local_drink, color: Colors.black),
     );
   }
 }
@@ -189,7 +189,7 @@ class _GymBag extends StatelessWidget {
         color: Colors.grey[300],
         shape: BoxShape.circle,
       ),
-      child: Icon(Icons.sports_basketball, color: Colors.black),
+      child: const Icon(Icons.sports_basketball, color: Colors.black),
     );
   }
 }
@@ -208,7 +208,7 @@ class _JumpRope extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Icon(Icons.accessibility, color: Colors.black),
+      child: const Icon(Icons.accessibility, color: Colors.black),
     );
   }
 }

@@ -24,7 +24,7 @@ class RegisterScreen extends StatelessWidget {
           
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox( height: 40 ),
+              const SizedBox( height: 20 ),
               // Icon Banner
 
               Row(
@@ -50,7 +50,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox( height: 80 ),
             
               Container(
-                height: size.height - 260, // 80 los dos sizebox y 100 el ícono
+                height: size.height - 200, // 80 los dos sizebox y 100 el ícono
                 
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class _LoginForm extends ConsumerWidget {
 
    // final loginForm =ref.watch(loginFormProvider);
 
-    final textStyles = Theme.of(context).textTheme;
+    //final textStyles = Theme.of(context).textTheme;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -83,9 +83,26 @@ class _LoginForm extends ConsumerWidget {
         children: [
           const SizedBox( height: 30 ),
          // Text('Bienvenido', style: textStyles.titleLarge ),
+          
+
+          const CustomTextFormField(
+            label: 'Nombre',
+            // onChanged: ref.read(loginFormProvider.notifier).onEmailChanged,
+            // errorMessage: loginForm.isFormPosted ? 
+            // loginForm.email.errorMessage : null,
+          ),
           const SizedBox( height: 30 ),
 
-           const CustomTextFormField(
+          const CustomTextFormField(
+            label: 'Apellido',
+            // onChanged: ref.read(loginFormProvider.notifier).onEmailChanged,
+            // errorMessage: loginForm.isFormPosted ? 
+            // loginForm.email.errorMessage : null,
+          ),
+          const SizedBox( height: 30 ),
+
+
+          const CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
            // onChanged: ref.read(loginFormProvider.notifier).onEmailChanged,
@@ -112,17 +129,17 @@ class _LoginForm extends ConsumerWidget {
               buttonColor: Colors.black,
               onPressed: (){
                 //ref.read(loginFormProvider.notifier).onFormSubmit();
-                context.pop('/home_view'); //TODO: Cambiar por la ruta correcta
+                //context.pop('/home_view'); //TODO: Cambiar por la ruta correcta
               },
             )
           ),
 
-          const SizedBox( height: 15 ),
+          const SizedBox( height: 5 ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Ya tienes cuenta '),
+              const Text('¿Ya tienes cuenta?'),
               TextButton(
                 onPressed: ()=> context.push('/'), 
                 child: const Text('Inicia sesión')
@@ -130,6 +147,7 @@ class _LoginForm extends ConsumerWidget {
             ],
           ),
           const Spacer( flex: 1),
+          
         ],
       ),
     );
