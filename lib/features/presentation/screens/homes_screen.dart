@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:time_to_train/widgets/horizontal_view_card.dart';
-import 'package:time_to_train/widgets/menu_lat.dart';
+import 'package:time_to_train/features/presentation/widgets/horizontal_view_card.dart';
+import 'package:time_to_train/features/presentation/widgets/menu_lat.dart';
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 

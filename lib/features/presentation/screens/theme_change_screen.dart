@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_to_train/presentation/providers/theme_provider.dart';
+import 'package:time_to_train/features/presentation/providers/theme_provider.dart';
 
 
 
