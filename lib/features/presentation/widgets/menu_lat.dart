@@ -15,7 +15,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
 
     final hasNotch = MediaQuery.of(context).viewPadding.top>35;
-  
+    //final size = MediaQuery.of(context).size;
     return  NavigationDrawer(
       selectedIndex: navDrawerIndex,
       onDestinationSelected: (value){
@@ -26,12 +26,18 @@ class _SideMenuState extends State<SideMenu> {
         context.push(menuItem.link);
         widget.scaffoldKey.currentState?.closeDrawer(); //widget es la instancia de la clase SideMenu
       },
-      
       children:  [
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch?0:20, 16, 10),
-          child: Text("Hola Isa", style: Theme.of(context).textTheme.titleMedium), //*agregar name del user
-        ),
+          child: Row(
+            children: [
+            Text("Hola Isa", style: Theme.of(context).textTheme.titleMedium),
+                const Padding(padding: EdgeInsets.only(left: 90),),
+                const Icon(Icons.account_circle, size: 40,), 
+              ],
+              
+            ),
+          ),
 
 
         ...appMenuItems
