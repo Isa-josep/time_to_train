@@ -50,7 +50,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox( height: 80 ),
             
               Container(
-                height: size.height - 200, // 80 los dos sizebox y 100 el ícono
+                height: size.height - 70, // 80 los dos sizebox y 100 el ícono 250 si se modifica
                 
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -101,6 +101,13 @@ class _LoginForm extends ConsumerWidget {
           ),
           const SizedBox( height: 30 ),
 
+          const CustomTextFormField(
+            label: 'Usuario',
+            // onChanged: ref.read(loginFormProvider.notifier).onEmailChanged,
+            // errorMessage: loginForm.isFormPosted ? 
+            // loginForm.email.errorMessage : null,
+          ),
+          const SizedBox( height: 30 ),
 
           const CustomTextFormField(
             label: 'Correo',
@@ -119,6 +126,16 @@ class _LoginForm extends ConsumerWidget {
             // loginForm.password.errorMessage: null,
           ),
     
+          const SizedBox( height: 30 ),
+
+          const CustomTextFormField(
+            label: 'Contraseña',
+            obscureText: true,
+            // onChanged: ref.read(loginFormProvider.notifier).onPasswordChanged,
+            // errorMessage: loginForm.isFormPosted ? 
+            // loginForm.password.errorMessage: null,
+          ),
+
           const SizedBox( height: 30 ),
 
           SizedBox(
