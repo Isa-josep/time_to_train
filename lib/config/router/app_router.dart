@@ -29,5 +29,10 @@ final appRouter = GoRouter(
       path: '/register_screen',
       builder: (context, state) => const RegisterScreen(),
     ),
+
+    GoRoute(
+      path: '/imc_screen',
+      builder: (context, state) => const ImcScreen(),
+    ),
   ],
 );

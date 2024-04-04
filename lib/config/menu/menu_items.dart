@@ -24,17 +24,17 @@ const appMenuItems = <MenuItem>[
   ),
 
   MenuItem(
-    title: 'Inicio',
-    subTitle: 'Página principal',
-    link: '/home_view',
-    icon: Icons.home,
-  ),
-
-  MenuItem(
     title: 'Grafica',
     subTitle: 'Grafica de avanzes',
     link: '/graphic_screen',
     icon: Icons.bar_chart_outlined,
+  ),
+
+  MenuItem(
+    title: 'Indice De Masa Muscular',
+    subTitle: 'Calcula tu IMC',
+    link: '/imc_screen',
+    icon: Icons.monitor_weight,
   ),
 
   MenuItem(

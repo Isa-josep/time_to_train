@@ -4,4 +4,4 @@ export 'screens/test_screen.dart';
 export 'screens/graph_screen.dart';
 export 'screens/login_screen.dart';
 export 'screens/register_screen.dart';
-//export 'screens/'
+export 'screens/imc_screen.dart';
