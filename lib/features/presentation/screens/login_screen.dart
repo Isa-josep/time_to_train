@@ -6,7 +6,7 @@ import 'package:time_to_train/features/presentation/widgets.dart';
 
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key}); 
 
   @override
   Widget build(BuildContext context) {
