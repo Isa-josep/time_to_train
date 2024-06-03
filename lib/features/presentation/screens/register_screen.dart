@@ -52,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
                   color: scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(100)),
                 ),
-                child: _RegisterForm(),
+                child: const _RegisterForm(),
               ),
             ],
           ),
