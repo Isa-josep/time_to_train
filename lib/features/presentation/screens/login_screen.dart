@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Spacer(flex: 1),
-                  Text('name de la app', style: textStyles.titleLarge?.copyWith(color: Colors.white)),
+                  Text('Time To Train', style: textStyles.titleLarge?.copyWith(color: Colors.white)),
                   const Spacer(flex: 2),
                 ],
               ),

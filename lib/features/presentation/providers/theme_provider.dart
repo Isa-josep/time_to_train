@@ -1,39 +1,53 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_to_train/config/theme/app_theme.dart';
 
-
-// Listado de colores inmutable
 final colorListProvider = Provider((ref) => colorList);
 
-// Un simple boolean
-final isDarkmodeProvider = StateProvider((ref) => false);
-
-// Un simple int
-final selectedColorProvider = StateProvider((ref) => 2);
-
-
-
-
-// Un objeto de tipo AppTheme (custom)
 final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppTheme>(
   (ref) => ThemeNotifier(),
 );
 
-
-// Controller o Notifier
 class ThemeNotifier extends StateNotifier<AppTheme> {
-  
-  // STATE = Estado = new AppTheme();
-  ThemeNotifier(): super( AppTheme() );
-
-
-  void toggleDarkmode() {
-    state = state.copyWith( isDarkmode: !state.isDarkmode  );
+  ThemeNotifier() : super(AppTheme()) {
+    _loadPreferences();
   }
 
-  void changeColorIndex( int colorIndex) {
-    state = state.copyWith( selectedColor: colorIndex );
+  Future<void> _loadPreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final selectedColor = prefs.getInt('selectedColor') ?? 0;
+      final isDarkmode = prefs.getBool('isDarkmode') ?? false;
+
+      state = state.copyWith(
+        selectedColor: selectedColor,
+        isDarkmode: isDarkmode,
+      );
+    } catch (e) {
+      // Manejar error aquí si es necesario
+      print('Error loading preferences: $e');
+    }
   }
 
+  Future<void> toggleDarkmode() async {
+    try {
+      state = state.copyWith(isDarkmode: !state.isDarkmode);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isDarkmode', state.isDarkmode);
+    } catch (e) {
+      // Manejar error aquí si es necesario
+      print('Error toggling dark mode: $e');
+    }
+  }
 
+  Future<void> changeColorIndex(int colorIndex) async {
+    try {
+      state = state.copyWith(selectedColor: colorIndex);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('selectedColor', state.selectedColor);
+    } catch (e) {
+      // Manejar error aquí si es necesario
+      print('Error changing color index: $e');
+    }
+  }
 }
