@@ -25,8 +25,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> data = json.decode(response.body);
       final String token = data['token'];
       final Map<String, dynamic>? user = data['user'];
-      final String nombre = user?['nombre_usuario'] ?? 'Usuario';
-      state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre);
+      final String nombre = user?['nombre'] ?? 'Usuario';
+      final String rol = user?['rol'] ?? 'usuario';
+      state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre, rol: rol);
     } else {
       throw Exception('Failed to login');
     }
@@ -34,7 +35,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> register(Map<String, String> userData) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.35:3000'),
+      Uri.parse('http://192.168.1.35:3000/api/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -46,7 +47,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final String token = data['token'];
       final Map<String, dynamic>? user = data['user'];
       final String nombre = user?['nombre'] ?? 'Usuario';
-      state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre);
+      final String rol = user?['rol'] ?? 'usuario';
+      state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre, rol: rol);
     } else {
       throw Exception('Failed to register');
     }
@@ -61,14 +63,16 @@ class AuthState {
   final String token;
   final bool isAuthenticated;
   final String nombre;
+  final String rol;
 
-  AuthState({this.token = '', this.isAuthenticated = false, this.nombre = ''});
+  AuthState({this.token = '', this.isAuthenticated = false, this.nombre = '', this.rol = 'usuario'});
 
-  AuthState copyWith({String? token, bool? isAuthenticated, String? nombre}) {
+  AuthState copyWith({String? token, bool? isAuthenticated, String? nombre, String? rol}) {
     return AuthState(
       token: token ?? this.token,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       nombre: nombre ?? this.nombre,
+      rol: rol ?? this.rol,
     );
   }
 }
