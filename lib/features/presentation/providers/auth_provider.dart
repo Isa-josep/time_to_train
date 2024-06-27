@@ -25,7 +25,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> data = json.decode(response.body);
       final String token = data['token'];
       final Map<String, dynamic>? user = data['user'];
-      final String nombre = user?['nombre'] ?? 'Usuario';
+      final String nombre = user?['nombre_usuario'] ?? 'Usuario';
       state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre);
     } else {
       throw Exception('Failed to login');
@@ -34,7 +34,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> register(Map<String, String> userData) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.35:3000/api/users'),
+      Uri.parse('http://192.168.1.35:3000'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
