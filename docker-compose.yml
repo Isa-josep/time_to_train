@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-gym-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1902
+      MYSQL_DATABASE: gym_db
+      MYSQL_USER: usuario_gym
+      MYSQL_PASSWORD: contrasena_gym
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./setup_gym_db.sql:/docker-entrypoint-initdb.d/setup_gym_db.sql
+
+volumes:
+  mysql_data:
