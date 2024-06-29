@@ -14,14 +14,35 @@ CREATE TABLE usuarios (
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabla de Grupos
+CREATE TABLE grupos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    creador_id INT NOT NULL, -- ID del usuario que crea el grupo
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (creador_id) REFERENCES usuarios(id)
+);
+
+-- Tabla intermedia de Grupos y Usuarios (Relación muchos a muchos)
+CREATE TABLE grupo_usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    grupo_id INT,
+    usuario_id INT UNIQUE, -- Un usuario solo puede estar en un grupo a la vez
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
 -- Tabla de Rutinas
 CREATE TABLE rutinas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     usuario_id INT,
+    grupo_id INT,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id)
 );
 
 -- Tabla de Ejercicios

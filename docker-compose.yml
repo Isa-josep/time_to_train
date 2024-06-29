@@ -9,11 +9,12 @@ services:
       MYSQL_DATABASE: gym_db
       MYSQL_USER: usuario_gym
       MYSQL_PASSWORD: contrasena_gym
+      TZ: America/Mexico_City
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./setup_gym_db.sql:/docker-entrypoint-initdb.d/setup_gym_db.sql
+      - ./setup_gym_db_with_groups.sql:/docker-entrypoint-initdb.d/setup_gym_db_with_groups.sql
 
 volumes:
   mysql_data:

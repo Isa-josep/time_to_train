@@ -44,6 +44,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/imc_screen',
         builder: (context, state) => const ImcScreen(),
       ),
+      GoRoute(
+        path: '/manage_groups_screen',
+        builder: (context, state) => const ManageGroupsScreen(),
+      ),
     ],
   );
 });

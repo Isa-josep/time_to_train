@@ -18,7 +18,7 @@ class SideMenu extends ConsumerWidget {
       onDestinationSelected: (value) {
         final menuItem = appMenuItems[value];
         context.push(menuItem.link);
-        scaffoldKey.currentState?.closeDrawer(); //widget es la instancia de la clase SideMenu
+        scaffoldKey.currentState?.closeDrawer();
       },
       children: [
         Padding(
@@ -44,7 +44,7 @@ class SideMenu extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 10, 16, 10),
           child: Text(
-            "Mas opciones",
+            "Más opciones",
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
@@ -58,7 +58,15 @@ class SideMenu extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
           child: Divider(),
         ),
-        ListTile(
+        if (authState.rol == 'admin' || authState.rol == 'entrenador')
+          ListTile(
+            leading: const Icon(Icons.group),
+            title: const Text('Gestionar Grupos'),
+            onTap: () {
+              context.push('/manage_groups_screen');
+            },
+          ),
+          ListTile(
           leading: const Icon(Icons.logout),
           title: const Text('Logout'),
           onTap: () {

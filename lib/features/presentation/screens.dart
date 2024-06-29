@@ -1,3 +1,4 @@
+export 'screens/manage_groups_screen.dart';
 export 'screens/homes_screen.dart';
 export 'screens/theme_change_screen.dart';
 export 'screens/test_screen.dart';
