@@ -21,7 +21,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> loadUsersWithoutGroup() async {
-    final response = await http.get(Uri.parse('http://192.168.1.25:3000/api/users/'));
+    final response = await http.get(Uri.parse('http://192.168.1.25:3000/api/users/no-group'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       state = state.copyWith(usersWithoutGroup: data);
