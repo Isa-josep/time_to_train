@@ -131,7 +131,7 @@ class _RegisterForm extends ConsumerWidget {
                 };
 
                 try {
-                  await ref.read(authProvider.notifier).register(userData);
+                    await ref.read(authProvider.notifier).register(userData);
                   context.go('/home_view');
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
@@ -145,7 +145,9 @@ class _RegisterForm extends ConsumerWidget {
             children: [
               const Text('¿Ya tienes cuenta?'),
               TextButton(
-                onPressed: () => context.push('/'),
+                onPressed: () {
+                  context.push('/');
+                },
                 child: const Text('Inicia sesión'),
               ),
             ],
