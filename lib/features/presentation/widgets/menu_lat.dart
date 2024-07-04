@@ -8,10 +8,30 @@ class SideMenu extends ConsumerWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   const SideMenu({super.key, required this.scaffoldKey});
 
+  String getInitials(String name, String apellido) {
+    String initials = '';
+    if (name.isNotEmpty) {
+      initials += name[0]; // Primera letra del primer nombre
+    }
+    if (apellido.isNotEmpty) {
+      initials += apellido[0]; // Primera letra del primer apellido
+    }
+    return initials.toUpperCase();
+  }
+
+  String getShortenedName(String name) {
+    if (name.length > 6) {
+      return '${name.substring(0, 6)}...';
+    }
+    return name;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     final authState = ref.watch(authProvider);
+    final initials = getInitials(authState.nombre, authState.apellido);
+    final shortenedName = getShortenedName(authState.nombre);
 
     return NavigationDrawer(
       selectedIndex: 0,
@@ -25,9 +45,16 @@ class SideMenu extends ConsumerWidget {
           padding: EdgeInsets.fromLTRB(28, hasNotch ? 0 : 20, 16, 10),
           child: Row(
             children: [
-              Text("Hola ${authState.nombre}", style: Theme.of(context).textTheme.titleMedium),
+              Text("Hola $shortenedName", style: Theme.of(context).textTheme.titleMedium),
               const Spacer(),
-              const Icon(Icons.account_circle, size: 40),
+              CircleAvatar(
+                radius: 24, // Ajuste del tamaño del círculo
+                backgroundColor: Colors.grey.shade800,
+                child: Text(
+                  initials,
+                  style: const TextStyle(color: Colors.white, fontSize: 18), // Ajuste del tamaño del texto
+                ),
+              ),
             ],
           ),
         ),
@@ -66,7 +93,7 @@ class SideMenu extends ConsumerWidget {
               context.push('/manage_groups_screen');
             },
           ),
-          ListTile(
+        ListTile(
           leading: const Icon(Icons.logout),
           title: const Text('Logout'),
           onTap: () {

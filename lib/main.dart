@@ -8,7 +8,7 @@ import 'package:time_to_train/features/presentation/providers/theme_provider.dar
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferences.getInstance(); // Inicializar shared_preferences
+  await SharedPreferences.getInstance(); 
   runApp(
     const ProviderScope(
       child: MainApp(),

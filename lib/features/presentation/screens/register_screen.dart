@@ -134,7 +134,9 @@ class _RegisterForm extends ConsumerWidget {
                     await ref.read(authProvider.notifier).register(userData);
                   context.go('/home_view');
                 } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString())),
+                  );
                 }
               },
             ),
