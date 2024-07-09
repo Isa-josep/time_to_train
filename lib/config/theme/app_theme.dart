@@ -43,6 +43,8 @@ class AppTheme {
         .copyWith( fontSize: 20 ),
       displayLarge: GoogleFonts.openSans()
       .copyWith( fontSize: 18, fontWeight: FontWeight.w500,  ),
+      displayMedium: GoogleFonts.openSans()
+      .copyWith( fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey[700] ),
     ),
   );
 
