@@ -51,5 +51,13 @@ const appMenuItems = <MenuItem>[
     icon: Icons.color_lens_outlined,
   ),
   
+  MenuItem(
+    title: 'Logout', 
+    subTitle: 'Cerrar sesión', 
+    link: '/', 
+    icon: Icons.logout_outlined
+  ),
   
+  
+
 ];

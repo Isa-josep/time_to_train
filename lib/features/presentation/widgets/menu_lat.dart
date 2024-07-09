@@ -37,7 +37,12 @@ class SideMenu extends ConsumerWidget {
       selectedIndex: 0,
       onDestinationSelected: (value) {
         final menuItem = appMenuItems[value];
-        context.push(menuItem.link);
+        if (menuItem.title == 'Logout') {
+          ref.read(authProvider.notifier).logout();
+          context.go(menuItem.link);
+        } else {
+          context.push(menuItem.link);
+        }
         scaffoldKey.currentState?.closeDrawer();
       },
       children: [
@@ -71,8 +76,8 @@ class SideMenu extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 10, 16, 10),
           child: Text(
-            "Más opciones",
-            style: Theme.of(context).textTheme.titleSmall,
+            "Más opciones...",
+            style: Theme.of(context).textTheme.displayLarge,
           ),
         ),
         ...appMenuItems.sublist(3).map(
@@ -81,11 +86,18 @@ class SideMenu extends ConsumerWidget {
             label: Text(item.title),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
-          child: Divider(),
-        ),
-        if (authState.rol == 'admin' || authState.rol == 'entrenador')
+        if (authState.rol == 'admin' || authState.rol == 'entrenador') ...[
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
+            child: Divider(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10.0),
+            child: Text(
+              "Opciones de administrador",
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.group),
             title: const Text('Gestionar Grupos'),
@@ -93,14 +105,14 @@ class SideMenu extends ConsumerWidget {
               context.push('/manage_groups_screen');
             },
           ),
-        ListTile(
-          leading: const Icon(Icons.logout),
-          title: const Text('Logout'),
-          onTap: () {
-            ref.read(authProvider.notifier).logout();
-            context.go('/');
-          },
-        ),
+          ListTile(
+            leading: const Icon(Icons.settings_accessibility_rounded),
+            title: const Text('Gestionar Usuarios'),
+            onTap: () {
+              context.push('/dashboard');
+            },
+          )
+        ],
       ],
     );
   }

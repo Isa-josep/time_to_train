@@ -40,7 +40,9 @@ class AppTheme {
       titleMedium: GoogleFonts.montserratAlternates()
         .copyWith( fontSize: 30, fontWeight: FontWeight.bold ),
       titleSmall: GoogleFonts.montserratAlternates()
-        .copyWith( fontSize: 20 )
+        .copyWith( fontSize: 20 ),
+      displayLarge: GoogleFonts.openSans()
+      .copyWith( fontSize: 18, fontWeight: FontWeight.w500,  ),
     ),
   );
 
