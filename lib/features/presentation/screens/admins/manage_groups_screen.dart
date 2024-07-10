@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_to_train/features/presentation/providers/group_provider.dart';
-
+import 'package:time_to_train/features/presentation/widgets.dart';
 class ManageGroupsScreen extends ConsumerStatefulWidget {
   const ManageGroupsScreen({super.key});
 
@@ -25,15 +25,12 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
+            CustomTextFormField(
               controller: _groupNameController,
-              decoration: const InputDecoration(
-                labelText: 'Nombre del Grupo',
-                border: OutlineInputBorder(),
-              ),
+              label: 'Nombre del Grupo',
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
+            CustomFilledButton(
               onPressed: () {
                 final groupName = _groupNameController.text.trim();
                 if (groupName.isNotEmpty) {
@@ -41,8 +38,9 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                   _groupNameController.clear();
                 }
               },
-              child: const Text('Crear Grupo'),
+              text: 'Crear Grupo',
             ),
+            
             const SizedBox(height: 20),
             const Text('Grupos Disponibles', style: TextStyle(fontSize: 18)),
             groupState.groups.isEmpty
@@ -58,7 +56,10 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                     items: groupState.groups.map<DropdownMenuItem<int>>((group) {
                       return DropdownMenuItem<int>(
                         value: group['id'],
-                        child: Text(group['nombre']),
+                        child: Text(
+                          group['nombre'], 
+                          style:  const TextStyle(fontSize: 16),
+                        ),
                       );
                     }).toList(),
                   ),
@@ -72,7 +73,9 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                       itemBuilder: (context, index) {
                         final user = groupState.usersWithoutGroup[index];
                         return ListTile(
-                          title: Text(user['nombre']),
+                          title: Text(user['nombre']
+                              
+                              ),
                           trailing: IconButton(
                             icon: const Icon(Icons.add),
                             onPressed: () {
