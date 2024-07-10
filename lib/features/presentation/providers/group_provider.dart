@@ -16,7 +16,13 @@ class GroupNotifier extends StateNotifier<GroupState> {
     final response = await http.get(Uri.parse('http://192.168.1.25:3000/api/groups'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      state = state.copyWith(groups: data);
+      final List<Map<String, dynamic>> groups = data.map((group) {
+        return {
+          'id': group['id'],
+          'nombre': group['nombre'],
+        };
+      }).toList();
+      state = state.copyWith(groups: groups);
     }
   }
 
@@ -67,12 +73,12 @@ class GroupNotifier extends StateNotifier<GroupState> {
 }
 
 class GroupState {
-  final List<dynamic> groups;
+  final List<Map<String, dynamic>> groups;
   final List<dynamic> usersWithoutGroup;
 
   GroupState({this.groups = const [], this.usersWithoutGroup = const []});
 
-  GroupState copyWith({List<dynamic>? groups, List<dynamic>? usersWithoutGroup}) {
+  GroupState copyWith({List<Map<String, dynamic>>? groups, List<dynamic>? usersWithoutGroup}) {
     return GroupState(
       groups: groups ?? this.groups,
       usersWithoutGroup: usersWithoutGroup ?? this.usersWithoutGroup,
