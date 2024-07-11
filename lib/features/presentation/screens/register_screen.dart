@@ -118,7 +118,7 @@ class _RegisterForm extends ConsumerWidget {
               buttonColor: Colors.black,
               onPressed: () async {
                 if (passwordController.text != confirmPasswordController.text) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Las contraseñas no coinciden')));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text('Las contraseñas no coinciden')));
                   return;
                 }
 

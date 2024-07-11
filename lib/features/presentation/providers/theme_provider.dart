@@ -25,7 +25,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       );
     } catch (e) {
       // Manejar error aquí si es necesario
-      print('Error loading preferences: $e');
+      // print('Error  $e');
     }
   }
 
@@ -36,7 +36,8 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.setBool('isDarkmode', state.isDarkmode);
     } catch (e) {
       // Manejar error aquí si es necesario
-      print('Error toggling dark mode: $e');
+      return ;
+      // print('Erorr al cambiar theme : $e');
     }
   }
 
@@ -47,7 +48,8 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.setInt('selectedColor', state.selectedColor);
     } catch (e) {
       // Manejar error aquí si es necesario
-      print('Error changing color index: $e');
+      return ;
+      // print('Error changing color index: $e');
     }
   }
 }

@@ -41,7 +41,7 @@ class AnimationPageState extends State<GraphScreen> {
             children: <Widget>[
               
 
-              //TODO: inicio de la grafica de pastel 
+              //! inicio de la grafica de pastel 
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 40, 20, 5),
                 child: const Text(
@@ -92,7 +92,7 @@ class AnimationPageState extends State<GraphScreen> {
                   coord: PolarCoord(transposed: true, dimCount: 1),
                 ),
               ),
-              //TODO: fin de la grafica 
+              //! fin de la grafica 
             ],
           ),
         ),
