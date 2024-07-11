@@ -118,7 +118,10 @@ class _RegisterForm extends ConsumerWidget {
               buttonColor: Colors.black,
               onPressed: () async {
                 if (passwordController.text != confirmPasswordController.text) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text('Las contraseñas no coinciden')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Las contraseñas no coinciden')
+                    ));
                   return;
                 }
 
@@ -127,7 +130,10 @@ class _RegisterForm extends ConsumerWidget {
                     usernameController.text.isEmpty ||
                     emailController.text.isEmpty ||
                     passwordController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor complete todos los campos')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                   const SnackBar(
+                    content: Text('Por favor complete todos los campos')
+                  ));
                   return;
                 }
 
