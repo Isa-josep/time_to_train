@@ -122,6 +122,15 @@ class _RegisterForm extends ConsumerWidget {
                   return;
                 }
 
+                if (nameController.text.isEmpty ||
+                    lastNameController.text.isEmpty ||
+                    usernameController.text.isEmpty ||
+                    emailController.text.isEmpty ||
+                    passwordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor complete todos los campos')));
+                  return;
+                }
+
                 final userData = {
                   'nombre': nameController.text,
                   'apellido': lastNameController.text,
@@ -131,7 +140,7 @@ class _RegisterForm extends ConsumerWidget {
                 };
 
                 try {
-                    await ref.read(authProvider.notifier).register(userData);
+                  await ref.read(authProvider.notifier).register(userData);
                   context.go('/home_view');
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(

@@ -23,12 +23,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      final String token = data['token'];
+      final String token = data['token'] ?? '';
       final Map<String, dynamic>? user = data['user'];
       final String nombre = user?['nombre_usuario'] ?? 'Usuario';
       final String rol = user?['rol'] ?? 'usuario';
       final String apellido = user?['apellido'] ?? '';
-      state = state.copyWith(token: token, isAuthenticated: true, nombre: nombre, rol: rol, apellido: apellido);
+      state = state.copyWith(
+          token: token,
+          isAuthenticated: true,
+          nombre: nombre,
+          rol: rol,
+          apellido: apellido);
     } else {
       throw Exception('Failed to login');
     }
@@ -45,15 +50,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      final String token = data['token'];
+      final String token = data['token'] ?? '';
       final Map<String, dynamic>? user = data['user'];
       final String nombre = user?['nombre_usuario'] ?? 'Usuario';
       final String rol = user?['rol'] ?? 'usuario';
+      final String apellido = user?['apellido'] ?? '';
       state = state.copyWith(
-        token: token, 
-        isAuthenticated: true, 
-        nombre: nombre, 
-        rol: rol
+        token: token,
+        isAuthenticated: true,
+        nombre: nombre,
+        rol: rol,
+        apellido: apellido,
       );
     } else {
       throw Exception('Failed to register');
@@ -71,21 +78,22 @@ class AuthState {
   final String nombre;
   final String rol;
   final String apellido;
+
   AuthState({
-    this.token = '', 
-    this.isAuthenticated = false, 
-    this.nombre = '', 
+    this.token = '',
+    this.isAuthenticated = false,
+    this.nombre = '',
     this.rol = 'usuario',
-    this.apellido ='',  
+    this.apellido = '',
   });
 
   AuthState copyWith({
-    String? token, 
-    bool? isAuthenticated, 
-    String? nombre, 
-    String? rol, 
-    String? apellido
-    }){
+    String? token,
+    bool? isAuthenticated,
+    String? nombre,
+    String? rol,
+    String? apellido,
+  }) {
     return AuthState(
       token: token ?? this.token,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
