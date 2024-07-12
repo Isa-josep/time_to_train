@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_to_train/config/theme/app_theme.dart';
 
 final colorListProvider = Provider((ref) => colorList);
+final colorNamesProvider = Provider((ref) => colorNames);
 
 final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppTheme>(
   (ref) => ThemeNotifier(),
@@ -36,7 +37,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.setBool('isDarkmode', state.isDarkmode);
     } catch (e) {
       // Manejar error aquí si es necesario
-      return ;
+      return;
       // print('Erorr al cambiar theme : $e');
     }
   }
@@ -48,7 +49,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
       await prefs.setInt('selectedColor', state.selectedColor);
     } catch (e) {
       // Manejar error aquí si es necesario
-      return ;
+      return;
       // print('Error changing color index: $e');
     }
   }

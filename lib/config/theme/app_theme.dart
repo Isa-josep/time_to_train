@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 const colorList = <Color>[
   Colors.blue,
   Colors.teal,
@@ -10,9 +11,49 @@ const colorList = <Color>[
   Colors.orange,
   Colors.pink,
   Colors.pinkAccent,
+  Colors.amber,
+  Colors.cyan,
+  Colors.lime,
+  Colors.indigo,
+  Colors.lightBlue,
+  Colors.lightGreen,
+  Colors.yellow,
+  Colors.brown,
+  Colors.grey,
+  Colors.blueGrey,
+  Colors.deepOrange,
+  Colors.limeAccent,
+  Colors.tealAccent,
+  Colors.greenAccent,
+  Colors.blueAccent,
 ];
 
-
+const colorNames = <String>[
+  'Blue',
+  'Teal',
+  'Green',
+  'Red',
+  'Purple',
+  'Deep Purple',
+  'Orange',
+  'Pink',
+  'Pink Accent',
+  'Amber',
+  'Cyan',
+  'Lime',
+  'Indigo',
+  'Light Blue',
+  'Light Green',
+  'Yellow',
+  'Brown',
+  'Grey',
+  'Blue Grey',
+  'Deep Orange',
+  'Lime Accent',
+  'Teal Accent',
+  'Green Accent',
+  'Blue Accent',
+];
 
 class AppTheme {
 
@@ -22,9 +63,9 @@ class AppTheme {
   AppTheme({
     this.selectedColor = 0,
     this.isDarkmode = false,
-  }): assert( selectedColor >= 0, 'Selected color must be greater then 0' ),  
+  }): assert( selectedColor >= 0, 'Selected color must be greater than or equal to 0' ),  
       assert( selectedColor < colorList.length, 
-        'Selected color must be less or equal than ${ colorList.length - 1 }');
+        'Selected color must be less than ${ colorList.length }');
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,

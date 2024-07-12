@@ -33,17 +33,19 @@ class _ThemeChangerView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Color> colors = ref.watch(colorListProvider);
-    final int selectedColor = ref.watch(themeNotifierProvider).selectedColor;
+    final colors = ref.watch(colorListProvider);
+    final colorNames = ref.watch(colorNamesProvider);
+    final selectedColor = ref.watch(themeNotifierProvider).selectedColor;
 
     return ListView.builder(
       itemCount: colors.length,
       itemBuilder: (context, index) {
-        final Color color = colors[index];
+        final color = colors[index];
+        final colorName = colorNames[index];
 
         return RadioListTile(
-          title: Text('Este color', style: TextStyle(color: color)),
-          subtitle: Text('${color.value}'),
+          title: Text(colorName, style: TextStyle(color: color)),
+          
           activeColor: color,
           value: index,
           groupValue: selectedColor,
