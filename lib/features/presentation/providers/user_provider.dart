@@ -12,7 +12,7 @@ class UserNotifier extends StateNotifier<List<dynamic>> {
   }
 
   Future<void> loadUsers() async {
-    final response = await http.get(Uri.parse('http://192.168.1.28:3000/api/users'));
+    final response = await http.get(Uri.parse('http://192.168.1.170:3000/api/users'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       final List<dynamic> filteredData = data.where((user) => user['rol'] != 'admin').toList();

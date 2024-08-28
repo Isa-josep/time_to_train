@@ -11,7 +11,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.28:3000/api/users/login'),
+      Uri.parse('http://192.168.1.170:3000/api/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -41,7 +41,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> register(Map<String, String> userData) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.28:3000/api/users'),
+      Uri.parse('http://192.168.1.170:3000/api/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

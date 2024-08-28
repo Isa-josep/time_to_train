@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_to_train/features/models/routine_model.dart';
 import 'package:time_to_train/features/presentation/providers/auth_provider.dart';
 import 'package:time_to_train/features/presentation/providers/routine_provider.dart';
+import 'package:time_to_train/features/presentation/screens/routine_detail_screen.dart';
 import 'package:time_to_train/features/presentation/widgets/menu_lat.dart';
 import 'package:time_to_train/features/presentation/widgets/routine_modal.dart';
 
@@ -49,6 +50,14 @@ class _Home extends StatelessWidget {
                 child: ListTile(
                   title: Text(routine.nombre),
                   subtitle: Text(routine.descripcion),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RoutineDetailScreen(routine: routine),
+                      ),
+                    );
+                  },
                 ),
               );
             },

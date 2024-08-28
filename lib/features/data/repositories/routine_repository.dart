@@ -33,6 +33,6 @@ class RoutineRepository {
 }
 
 final routineRepositoryProvider = Provider<RoutineRepository>((ref) {
-  const baseUrl = 'http://192.168.1.28:3000/api'; // Ajusta esto según tu configuración
+  const baseUrl = 'http://192.168.1.170:3000/api'; // Ajusta esto según tu configuración
   return RoutineRepository(baseUrl);
 });
