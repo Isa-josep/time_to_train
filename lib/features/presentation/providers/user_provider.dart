@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,7 +13,7 @@ class UserNotifier extends StateNotifier<List<dynamic>> {
   }
 
   Future<void> loadUsers() async {
-    final response = await http.get(Uri.parse('http://192.168.1.170:3000/api/users'));
+    final response = await http.get(Uri.parse('http://${dotenv.env['PATH']}:3000/api/users'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       final List<dynamic> filteredData = data.where((user) => user['rol'] != 'admin').toList();

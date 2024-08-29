@@ -29,20 +29,38 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
   }
 
   Future<void> saveRoutine() async {
-    final routineRepository = ref.read(routineRepositoryProvider);
+  final routineRepository = ref.read(routineRepositoryProvider);
 
-    final routine = {
-      'nombre': titleController.text,
-      'descripcion': descriptionController.text,
-      'usuario_id': 1, // Aquí deberías obtener el ID del usuario actual
-      'grupo_id': int.parse(selectedGroup!),
-      'video_url': videoControllers.isNotEmpty ? videoControllers.first.text : null,
-    };
+  final routine = {
+    'nombre': titleController.text,
+    'descripcion': descriptionController.text,
+    'usuario_id': 1, // Aquí deberías obtener el ID del usuario actual
+    'grupo_id': int.parse(selectedGroup!),
+  };
 
-    await routineRepository.createRoutine(routine);
-    ref.invalidate(routineProvider); // Invalida el provider para recargar las rutinas
-    Navigator.pop(context);
+  // Solo incluir 'video_url' si hay un enlace proporcionado
+  if (videoControllers.isNotEmpty && videoControllers.first.text.isNotEmpty) {
+    routine['video_url'] = videoControllers.first.text;
   }
+
+  try {
+    final response = await routineRepository.createRoutine(routine);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      ref.invalidate(routineProvider); // Invalida el provider para recargar las rutinas
+      Navigator.pop(context);
+    } else {
+      print('Error: ${response.body}');
+      final snackBar = SnackBar(content: Text('Error al guardar la rutina: ${response.body}'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  } catch (e) {
+    print('Error al enviar la solicitud: $e');
+    final snackBar = SnackBar(content: Text('Error al enviar la solicitud: $e'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}
+
+
 
   @override
   Widget build(BuildContext context) {

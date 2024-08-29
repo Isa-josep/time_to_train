@@ -5,10 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_to_train/config/router/app_router.dart';
 import 'package:time_to_train/config/theme/app_theme.dart';
 import 'package:time_to_train/features/presentation/providers/theme_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferences.getInstance(); 
+  await SharedPreferences.getInstance(); // Assuming you need it
+  await dotenv.load(fileName: ".env"); // Ensure correct file name
+
   runApp(
     const ProviderScope(
       child: MainApp(),
@@ -17,7 +20,7 @@ Future<void> main() async {
 }
 
 class MainApp extends ConsumerWidget {
-  const   MainApp({super.key});
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
