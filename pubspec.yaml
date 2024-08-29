@@ -19,6 +19,7 @@ dependencies:
   graphic: ^2.2.1
   http: ^1.2.1
   shared_preferences: ^2.2.3
+  youtube_player_flutter: ^9.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
