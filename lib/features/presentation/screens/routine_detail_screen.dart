@@ -55,12 +55,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
           children: [
             Text(
               widget.routine.nombre,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 16),
             Text(
               widget.routine.descripcion,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
             if (_youtubeController != null)
