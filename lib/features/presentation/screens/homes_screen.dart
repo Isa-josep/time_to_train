@@ -44,6 +44,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
               _showRoutinesForSelectedDate(selectedDay);
             },
           ),
+          Expanded(
+            child: _RoutineList(selectedDay: _selectedDay),
+          ),
         ],
       ),
       drawer: SideMenu(scaffoldKey: scaffoldKey),
@@ -83,6 +86,47 @@ class _HomeViewState extends ConsumerState<HomeView> {
       error: (error, stack) => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $error')),
       ),
+    );
+  }
+}
+
+class _RoutineList extends ConsumerWidget {
+  final DateTime selectedDay;
+
+  const _RoutineList({required this.selectedDay});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routinesAsync = ref.watch(routineByDateProvider(selectedDay));
+
+    return routinesAsync.when(
+      data: (routines) {
+        if (routines.isEmpty) {
+          return const Center(child: Text('No hay rutinas para este día.'));
+        }
+        return ListView.builder(
+          itemCount: routines.length,
+          itemBuilder: (context, index) {
+            final routine = routines[index];
+            return Card(
+              child: ListTile(
+                title: Text(routine.nombre),
+                subtitle: Text(routine.descripcion),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RoutineDetailScreen(routine: routine),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 }

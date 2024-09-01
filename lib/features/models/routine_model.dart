@@ -5,7 +5,7 @@ class Routine {
   final int usuarioId;
   final int grupoId;
   final String? videoUrl;
-  final DateTime fechaEjercicio;
+  final DateTime? fechaEjercicio; // Permitir que fecha_ejercicio sea nulo
 
   Routine({
     required this.id,
@@ -14,7 +14,7 @@ class Routine {
     required this.usuarioId,
     required this.grupoId,
     this.videoUrl,
-    required this.fechaEjercicio,
+    this.fechaEjercicio,
   });
 
   factory Routine.fromJson(Map<String, dynamic> json) {
@@ -25,7 +25,7 @@ class Routine {
       usuarioId: json['usuario_id'],
       grupoId: json['grupo_id'],
       videoUrl: json['video_url'],
-      fechaEjercicio: DateTime.parse(json['fecha_ejercicio']),
+      fechaEjercicio: json['fecha_ejercicio'] != null ? DateTime.parse(json['fecha_ejercicio']) : null,
     );
   }
 
@@ -37,7 +37,7 @@ class Routine {
       'usuario_id': usuarioId,
       'grupo_id': grupoId,
       'video_url': videoUrl,
-      'fecha_ejercicio': fechaEjercicio.toIso8601String(),
+      'fecha_ejercicio': fechaEjercicio?.toIso8601String(), // Convertir a cadena solo si no es nulo
     };
   }
 }

@@ -4,5 +4,13 @@ import 'package:time_to_train/features/presentation/providers/routine_provider.d
 
 final routineByDateProvider = FutureProvider.family<List<Routine>, DateTime>((ref, fecha) async {
   final routineRepository = ref.watch(routineRepositoryProvider);
-  return await routineRepository.fetchRoutinesByDate(fecha);
+  final allRoutines = await routineRepository.fetchRoutinesByDate(fecha);
+
+  // Filtrar las rutinas para que solo se muestren las que coinciden con la fecha específica (ignorando la hora)
+  return allRoutines.where((routine) {
+    return routine.fechaEjercicio != null &&
+           routine.fechaEjercicio!.year == fecha.year &&
+           routine.fechaEjercicio!.month == fecha.month &&
+           routine.fechaEjercicio!.day == fecha.day;
+  }).toList();
 });
