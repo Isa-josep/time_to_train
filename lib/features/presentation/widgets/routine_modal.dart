@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_to_train/features/data/repositories/routine_repository.dart';
-import 'package:time_to_train/features/presentation/providers/group_provider.dart';
-import 'package:time_to_train/features/presentation/providers/routine_provider.dart';
+import 'package:time_to_train/features/presentation/providers.dart';
 import 'package:time_to_train/features/presentation/widgets.dart';
+
 class RoutineModal extends ConsumerStatefulWidget {
   const RoutineModal({super.key});
 
@@ -17,6 +16,7 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
   final descriptionController = TextEditingController();
   final List<TextEditingController> videoControllers = [];
   bool addVideoField = false;
+  DateTime _selectedDate = DateTime.now(); // Variable para almacenar la fecha seleccionada
 
   @override
   void dispose() {
@@ -29,38 +29,59 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
   }
 
   Future<void> saveRoutine() async {
-  final routineRepository = ref.read(routineRepositoryProvider);
+    if (selectedGroup == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor selecciona un grupo')),
+      );
+      return;
+    }
 
-  final routine = {
-    'nombre': titleController.text,
-    'descripcion': descriptionController.text,
-    'usuario_id': 1, // Aquí deberías obtener el ID del usuario actual
-    'grupo_id': int.parse(selectedGroup!),
-  };
+    final routineRepository = ref.read(routineRepositoryProvider);
 
-  // Solo incluir 'video_url' si hay un enlace proporcionado
-  if (videoControllers.isNotEmpty && videoControllers.first.text.isNotEmpty) {
-    routine['video_url'] = videoControllers.first.text;
-  }
+    final routine = {
+      'nombre': titleController.text,
+      'descripcion': descriptionController.text,
+      'usuario_id': 1, // Aquí deberías obtener el ID del usuario actual
+      'grupo_id': int.parse(selectedGroup!),
+      'fecha_ejercicio': _selectedDate.toIso8601String(), // Agregar la fecha seleccionada
+    };
 
-  try {
-    final response = await routineRepository.createRoutine(routine);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      ref.invalidate(routineProvider); // Invalida el provider para recargar las rutinas
-      Navigator.pop(context);
-    } else {
-      print('Error: ${response.body}');
-      final snackBar = SnackBar(content: Text('Error al guardar la rutina: ${response.body}'));
+    // Solo incluir 'video_url' si hay un enlace proporcionado
+    if (videoControllers.isNotEmpty && videoControllers.first.text.isNotEmpty) {
+      routine['video_url'] = videoControllers.first.text;
+    }
+
+    try {
+      final response = await routineRepository.createRoutine(routine);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ref.invalidate(routineProvider); // Invalida el provider para recargar las rutinas
+        Navigator.pop(context);
+      } else {
+        print('Error: ${response.body}');
+        final snackBar = SnackBar(content: Text('Error al guardar la rutina: ${response.body}'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      print('Error al enviar la solicitud: $e');
+      final snackBar = SnackBar(content: Text('Error al enviar la solicitud: $e'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-  } catch (e) {
-    print('Error al enviar la solicitud: $e');
-    final snackBar = SnackBar(content: Text('Error al enviar la solicitud: $e'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-}
 
-
+  // Método para mostrar el DatePicker y actualizar la fecha seleccionada
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
+    );
+    if (pickedDate != null && pickedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +130,18 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
                                 selectedGroup = value;
                               });
                             },
+                            validator: (value) => value == null ? 'Por favor selecciona un grupo' : null,
                           ),
                     const SizedBox(height: 20),
                     CustomTextFormField(
                       controller: titleController,
                       label: 'Nombre',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa un nombre';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     Container(
@@ -130,7 +158,25 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(10.0),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor ingresa una descripción';
+                          }
+                          return null;
+                        },
                       ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Selector de fecha
+                    Row(
+                      children: [
+                        Text('Fecha: ${_selectedDate.toLocal()}'.split(' ')[0]),
+                        SizedBox(width: 16),
+                        ElevatedButton(
+                          onPressed: () => _selectDate(context),
+                          child: const Text('Seleccionar fecha'),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     SwitchListTile(
@@ -153,6 +199,12 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
                                 CustomTextFormField(
                                   controller: controller,
                                   label: 'Enlace de YouTube',
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor ingresa un enlace de YouTube';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.remove_circle, color: Colors.red),

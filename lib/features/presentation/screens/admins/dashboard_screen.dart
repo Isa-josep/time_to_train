@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_to_train/features/presentation/providers/user_provider.dart';
-import 'package:time_to_train/features/presentation/providers/auth_provider.dart';
+import 'package:time_to_train/features/presentation/providers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

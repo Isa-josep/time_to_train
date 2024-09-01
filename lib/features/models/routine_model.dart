@@ -5,7 +5,7 @@ class Routine {
   final int usuarioId;
   final int grupoId;
   final String? videoUrl;
-  final DateTime creadoEn;
+  final DateTime fechaEjercicio;
 
   Routine({
     required this.id,
@@ -14,7 +14,7 @@ class Routine {
     required this.usuarioId,
     required this.grupoId,
     this.videoUrl,
-    required this.creadoEn,
+    required this.fechaEjercicio,
   });
 
   factory Routine.fromJson(Map<String, dynamic> json) {
@@ -25,7 +25,7 @@ class Routine {
       usuarioId: json['usuario_id'],
       grupoId: json['grupo_id'],
       videoUrl: json['video_url'],
-      creadoEn: DateTime.parse(json['creado_en']),
+      fechaEjercicio: DateTime.parse(json['fecha_ejercicio']),
     );
   }
 
@@ -37,7 +37,7 @@ class Routine {
       'usuario_id': usuarioId,
       'grupo_id': grupoId,
       'video_url': videoUrl,
-      'creado_en': creadoEn.toIso8601String(),
+      'fecha_ejercicio': fechaEjercicio.toIso8601String(),
     };
   }
 }

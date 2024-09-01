@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_to_train/features/presentation/providers/group_provider.dart';
+import 'package:time_to_train/features/presentation/providers.dart';
 import 'package:time_to_train/features/presentation/widgets.dart';
 class ManageGroupsScreen extends ConsumerStatefulWidget {
   const ManageGroupsScreen({super.key});
