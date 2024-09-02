@@ -16,6 +16,7 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   DateTime _selectedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.month; // Formato inicial del calendario
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +32,45 @@ class _HomeViewState extends ConsumerState<HomeView> {
         children: [
           // Calendario interactivo
           TableCalendar(
-            focusedDay: _selectedDay,
-            firstDay: DateTime(2020),
-            lastDay: DateTime(2030),
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-              });
-              _showRoutinesForSelectedDate(selectedDay);
-            },
-          ),
+              calendarFormat: _calendarFormat, // Formato de calendario dinámico
+              focusedDay: _selectedDay,
+              firstDay: DateTime(2020),
+              lastDay: DateTime(2030),
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                });
+                _showRoutinesForSelectedDate(selectedDay);
+              },
+              formatAnimationCurve: Curves.easeInOut, // Animación de cambio de formato
+              formatAnimationDuration: const Duration(milliseconds: 300),
+              availableCalendarFormats: const {
+                CalendarFormat.month: 'Month',
+                CalendarFormat.twoWeeks: '2 Weeks',
+                CalendarFormat.week: 'Week',
+              },
+              onFormatChanged: (format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              },
+              headerVisible: true, 
+              availableGestures: AvailableGestures.all, // Gestos disponibles
+              // calendarStyle: CalendarStyle(
+              //   todayDecoration: BoxDecoration(
+              //     color: Colors.blue,
+              //     shape: BoxShape.circle,
+              //   ),
+              //   selectedDecoration: BoxDecoration(
+              //     color: Colors.orange,
+              //     shape: BoxShape.circle,
+              //   ),
+              // ),
+              ),
+
           Expanded(
             child: _RoutineList(selectedDay: _selectedDay),
           ),
@@ -102,7 +129,7 @@ class _RoutineList extends ConsumerWidget {
     return routinesAsync.when(
       data: (routines) {
         if (routines.isEmpty) {
-          return const Center(child: Text('No hay rutinas para este día.'));
+          return const Center(child: Text('No Cuentas Con Una Rutina Asignada'));
         }
         return ListView.builder(
           itemCount: routines.length,
