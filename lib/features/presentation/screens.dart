@@ -1,4 +1,6 @@
 export 'screens/admins/manage_groups_screen.dart';
+export 'screens/admins/manager_videos.dart';
+export 'screens/admins/dashboard_screen.dart';
 export 'screens/homes_screen.dart';
 export 'screens/theme_change_screen.dart';
 export 'screens/test_screen.dart';

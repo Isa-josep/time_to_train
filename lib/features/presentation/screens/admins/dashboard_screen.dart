@@ -9,7 +9,7 @@ class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   Future<void> updateUserRole(int userId, String newRole) async {
-  final url = 'http://${dotenv.env['PATH']}:3000/api/users/$userId/rol';
+  final url = '${dotenv.env['API_URL']}api/users/$userId/rol';
   try {
     final response = await http.put(
       Uri.parse(url),

@@ -31,7 +31,7 @@ class RoutineNotifier extends StateNotifier<AsyncValue<List<Routine>>> {
 }
 
 final routineRepositoryProvider = Provider<RoutineRepository>((ref) {
-  String baseUrl = 'http://${dotenv.env['PATH']}:3000/api'; // Asegúrate de que dotenv esté cargado y PATH esté definido
+  String baseUrl = '${dotenv.env['API_URL']}/api'; // Asegúrate de que dotenv esté cargado y PATH esté definido
   return RoutineRepository(baseUrl);
 });
 

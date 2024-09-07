@@ -14,7 +14,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> loadGroups() async {
-    final response = await http.get(Uri.parse('http://${dotenv.env['PATH']}:3000/api/groups'));
+    final response = await http.get(Uri.parse('${dotenv.env['API_URL']}api/groups'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       final List<Map<String, dynamic>> groups = data.map((group) {
@@ -28,7 +28,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> loadUsersWithoutGroup() async {
-    final response = await http.get(Uri.parse('http://${dotenv.env['PATH']}:3000/api/users/no-group'));
+    final response = await http.get(Uri.parse('${dotenv.env['API_URL']}api/users/no-group'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       state = state.copyWith(usersWithoutGroup: data);
@@ -37,7 +37,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
 
   Future<void> createGroup(String nombre) async {
     final response = await http.post(
-      Uri.parse('http://${dotenv.env['PATH']}:3000/api/groups'),
+      Uri.parse('${dotenv.env['API_URL']}api/groups'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -56,7 +56,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
 
   Future<void> addUserToGroup(int userId, int groupId) async {
     final response = await http.post(
-      Uri.parse('http://${dotenv.env['PATH']}:3000/api/groups/$groupId/users'),
+      Uri.parse('${dotenv.env['API_URL']}api/groups/$groupId/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

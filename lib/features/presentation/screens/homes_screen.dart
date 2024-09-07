@@ -48,9 +48,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
               formatAnimationCurve: Curves.easeInOut, // Animación de cambio de formato
               formatAnimationDuration: const Duration(milliseconds: 300),
               availableCalendarFormats: const {
-                CalendarFormat.month: 'Month',
-                CalendarFormat.twoWeeks: '2 Weeks',
-                CalendarFormat.week: 'Week',
+                CalendarFormat.month: 'Semana',
+                CalendarFormat.twoWeeks: 'Mes',
+                CalendarFormat.week: '2 Semanas ',
               },
               onFormatChanged: (format) {
                 setState(() {
@@ -59,16 +59,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
               },
               headerVisible: true, 
               availableGestures: AvailableGestures.all, // Gestos disponibles
-              // calendarStyle: CalendarStyle(
-              //   todayDecoration: BoxDecoration(
-              //     color: Colors.blue,
-              //     shape: BoxShape.circle,
-              //   ),
-              //   selectedDecoration: BoxDecoration(
-              //     color: Colors.orange,
-              //     shape: BoxShape.circle,
-              //   ),
-              // ),
+              calendarStyle: CalendarStyle(
+                selectedDecoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
               ),
 
           Expanded(
@@ -136,6 +132,7 @@ class _RoutineList extends ConsumerWidget {
           itemBuilder: (context, index) {
             final routine = routines[index];
             return Card(
+              color: Colors.grey[200],
               child: ListTile(
                 title: Text(routine.nombre),
                 subtitle: Text(routine.descripcion),

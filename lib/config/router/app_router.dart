@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:time_to_train/features/presentation/screens.dart';
 import 'package:time_to_train/features/presentation/providers/auth_provider.dart';
 
-import '../../features/presentation/screens/admins/dashboard_screen.dart';
-
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
@@ -53,7 +51,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/dashboard',
         builder: (context, state) => const DashboardScreen()
-      )
+      ),
+      GoRoute(
+        path: '/manager_videos',
+        builder: (context, state) => const ManagerVideos()
+      ),
     ],
   );
 });

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_to_train/config/menu/menu_items.dart';
 import 'package:time_to_train/features/presentation/providers/auth_provider.dart';
-
 class SideMenu extends ConsumerWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   const SideMenu({super.key, required this.scaffoldKey});
@@ -52,9 +51,10 @@ class SideMenu extends ConsumerWidget {
             children: [
               Text("Hola $shortenedName", style: Theme.of(context).textTheme.titleMedium),
               const Spacer(),
+              
               CircleAvatar(
                 radius: 24, // Ajuste del tamaño del círculo
-                backgroundColor: Colors.grey.shade800,
+                backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
                   initials,
                   style: const TextStyle(color: Colors.white, fontSize: 18), // Ajuste del tamaño del texto
@@ -111,7 +111,14 @@ class SideMenu extends ConsumerWidget {
             onTap: () {
               context.push('/dashboard');
             },
-          )
+          ),
+          ListTile(
+            leading: const Icon(Icons.video_settings_sharp),
+            title: const Text('Gestionar Videos'),
+            onTap: () {
+              context.push('/manager_videos');
+            },
+          ),
         ],
       ],
     );
