@@ -12,19 +12,15 @@ class RoutineModal extends ConsumerStatefulWidget {
 
 class _RoutineModalState extends ConsumerState<RoutineModal> {
   String? selectedGroup;
+  String? selectedVideoId; // ID del video seleccionado
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
-  final List<TextEditingController> videoControllers = [];
-  bool addVideoField = false;
-  DateTime _selectedDate = DateTime.now(); // Variable para almacenar la fecha seleccionada
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
-    for (var controller in videoControllers) {
-      controller.dispose();
-    }
     super.dispose();
   }
 
@@ -36,19 +32,23 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
       return;
     }
 
+    // Obtener el usuario_id desde el AuthProvider
+    final usuarioId = ref.read(authProvider).usuarioId;
+
     final routineRepository = ref.read(routineRepositoryProvider);
 
     final routine = {
       'nombre': titleController.text,
       'descripcion': descriptionController.text,
-      'usuario_id': 1, // Aquí deberías obtener el ID del usuario actual
+      'usuario_id': usuarioId, // Se obtiene dinámicamente del AuthProvider
       'grupo_id': int.parse(selectedGroup!),
-      'fecha_ejercicio': _selectedDate.toIso8601String(), // Agregar la fecha seleccionada
+      'fecha_ejercicio': _selectedDate.toIso8601String(),
     };
 
-    // Solo incluir 'video_url' si hay un enlace proporcionado
-    if (videoControllers.isNotEmpty && videoControllers.first.text.isNotEmpty) {
-      routine['video_url'] = videoControllers.first.text;
+    // Solo incluir 'video_url' si se seleccionó un video
+    if (selectedVideoId != null) {
+      final selectedVideo = ref.read(videosProvider).firstWhere((video) => video['id'].toString() == selectedVideoId);
+      routine['video_url'] = selectedVideo['url'];
     }
 
     try {
@@ -86,7 +86,9 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
   @override
   Widget build(BuildContext context) {
     final groupState = ref.watch(groupProvider);
+    final videosState = ref.watch(videosProvider); // Cargar los videos
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -171,7 +173,7 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
                     Row(
                       children: [
                         Text('Fecha: ${_selectedDate.toLocal()}'.split(' ')[0]),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         ElevatedButton(
                           onPressed: () => _selectDate(context),
                           child: const Text('Seleccionar fecha'),
@@ -179,51 +181,28 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    SwitchListTile(
-                      title: const Text('Agregar enlace de YouTube'),
-                      value: addVideoField,
-                      onChanged: (bool value) {
-                        setState(() {
-                          addVideoField = value;
-                          if (!value) videoControllers.clear();
-                        });
-                      },
-                    ),
-                    if (addVideoField)
-                      Column(
-                        children: [
-                          ...videoControllers.map((controller) {
-                            final index = videoControllers.indexOf(controller);
-                            return Column(
-                              children: [
-                                CustomTextFormField(
-                                  controller: controller,
-                                  label: 'Enlace de YouTube',
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Por favor ingresa un enlace de YouTube';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.remove_circle, color: Colors.red),
-                                  onPressed: () => setState(() {
-                                    videoControllers.removeAt(index);
-                                  }),
-                                ),
-                                const SizedBox(height: 10),
-                              ],
-                            );
-                          }).toList(),
-                          CustomFilledButton(
-                            onPressed: () => setState(() {
-                              videoControllers.add(TextEditingController());
-                            }),
-                            text: 'Agregar Enlace',
+                    // Selector de video
+                    videosState.isEmpty
+                        ? const CircularProgressIndicator()
+                        : DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                              labelText: 'Seleccionar Video',
+                              border: OutlineInputBorder(),
+                            ),
+                            value: selectedVideoId,
+                            items: videosState.map<DropdownMenuItem<String>>((video) {
+                              return DropdownMenuItem<String>(
+                                value: video['id'].toString(),
+                                child: Text(video['titulo'], style: const TextStyle(fontSize: 16)),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedVideoId = value;
+                              });
+                            },
+                            validator: (value) => value == null ? 'Por favor selecciona un video' : null,
                           ),
-                        ],
-                      ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
