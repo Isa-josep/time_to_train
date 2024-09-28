@@ -14,9 +14,23 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> loadGroups() async {
-    final response = await http.get(Uri.parse('${dotenv.env['API_URL']}api/groups'));
+    const query = '''
+    query {
+      obtenerGrupos {
+        id
+        nombre
+      }
+    }
+    ''';
+
+    final response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}graphql'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({'query': query}),
+    );
+
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final List<dynamic> data = json.decode(response.body)['data']['obtenerGrupos'];
       final List<Map<String, dynamic>> groups = data.map((group) {
         return {
           'id': group['id'],
@@ -28,22 +42,46 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> loadUsersWithoutGroup() async {
-    final response = await http.get(Uri.parse('${dotenv.env['API_URL']}api/users/no-group'));
+    const query = '''
+    query {
+      obtenerUsuariosSinGrupo {
+        id
+        nombre_usuario
+      }
+    }
+    ''';
+
+    final response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}graphql'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({'query': query}),
+    );
+
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final List<dynamic> data = json.decode(response.body)['data']['obtenerUsuariosSinGrupo'];
       state = state.copyWith(usersWithoutGroup: data);
     }
   }
 
   Future<void> createGroup(String nombre) async {
+    const mutation = '''
+    mutation CrearGrupo(\$nombre: String!, \$creador_id: Int!) {
+      createGroup(nombre: \$nombre, creador_id: \$creador_id) {
+        id
+        nombre
+      }
+    }
+    ''';
+
     final response = await http.post(
-      Uri.parse('${dotenv.env['API_URL']}api/groups'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'nombre': nombre,
-        'creador_id': '1', // Cambia esto según el ID del usuario creador (entrenador/admin)
+      Uri.parse('${dotenv.env['API_URL']}graphql'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({
+        'query': mutation,
+        'variables': {
+          'nombre': nombre,
+          'creador_id': 1,
+        },
       }),
     );
 
@@ -55,13 +93,23 @@ class GroupNotifier extends StateNotifier<GroupState> {
   }
 
   Future<void> addUserToGroup(int userId, int groupId) async {
+    const mutation = '''
+    mutation AgregarUsuarioAGrupo(\$userId: Int!, \$groupId: Int!) {
+      addUserToGroup(userId: \$userId, groupId: \$groupId) {
+        success
+      }
+    }
+    ''';
+
     final response = await http.post(
-      Uri.parse('${dotenv.env['API_URL']}api/groups/$groupId/users'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, int>{
-        'userId': userId,
+      Uri.parse('${dotenv.env['API_URL']}graphql'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({
+        'query': mutation,
+        'variables': {
+          'userId': userId,
+          'groupId': groupId,
+        },
       }),
     );
 

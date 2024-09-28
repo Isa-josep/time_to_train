@@ -23,7 +23,7 @@ class RoutineNotifier extends StateNotifier<AsyncValue<List<Routine>>> {
     try {
       state = const AsyncLoading();
       await _repository.createRoutine(routineData);
-      await loadRoutines(); // Recargar las rutinas después de agregar una nueva
+      await loadRoutines();
     } catch (e, st) {
       state = AsyncError(e, st);
     }
@@ -31,7 +31,7 @@ class RoutineNotifier extends StateNotifier<AsyncValue<List<Routine>>> {
 }
 
 final routineRepositoryProvider = Provider<RoutineRepository>((ref) {
-  String baseUrl = '${dotenv.env['API_URL']}api'; // Asegúrate de que dotenv esté cargado y PATH esté definido
+  String baseUrl = '${dotenv.env['API_URL']}graphql'; // Cambiar al endpoint de GraphQL
   return RoutineRepository(baseUrl);
 });
 

@@ -6,7 +6,12 @@ final routineByDateProvider = FutureProvider.family<List<Routine>, DateTime>((re
   final routineRepository = ref.watch(routineRepositoryProvider);
   final allRoutines = await routineRepository.fetchRoutinesByDate(fecha);
 
-  // Filtrar las rutinas para que solo se muestren las que coinciden con la fecha específica (ignorando la hora)
+  // Si no hay rutinas, retornamos una lista vacía
+  // if (allRoutines.isEmpty) {
+  //   print('No hay rutinas para esta fecha');
+  //   throw Exception('Sin rutinas para la fecha seleccionada');
+  // }
+
   return allRoutines.where((routine) {
     return routine.fechaEjercicio != null &&
            routine.fechaEjercicio!.year == fecha.year &&

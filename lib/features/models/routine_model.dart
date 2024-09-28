@@ -5,7 +5,7 @@ class Routine {
   final int usuarioId;
   final int grupoId;
   final String? videoUrl;
-  final DateTime? fechaEjercicio; // Permitir que fecha_ejercicio sea nulo
+  final DateTime? fechaEjercicio;
 
   Routine({
     required this.id,
@@ -37,7 +37,7 @@ class Routine {
       'usuario_id': usuarioId,
       'grupo_id': grupoId,
       'video_url': videoUrl,
-      'fecha_ejercicio': fechaEjercicio?.toIso8601String(), // Convertir a cadena solo si no es nulo
+      'fecha_ejercicio': fechaEjercicio?.toIso8601String(),
     };
   }
 }

@@ -13,9 +13,24 @@ class UserNotifier extends StateNotifier<List<dynamic>> {
   }
 
   Future<void> loadUsers() async {
-    final response = await http.get(Uri.parse('${dotenv.env['API_URL']}api/users'));
+    const query = '''
+    query {
+      obtenerUsuarios {
+        id
+        nombre_usuario
+        rol
+      }
+    }
+    ''';
+
+    final response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}graphql'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({'query': query}),
+    );
+
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final List<dynamic> data = json.decode(response.body)['data']['obtenerUsuarios'];
       final List<dynamic> filteredData = data.where((user) => user['rol'] != 'admin').toList();
       state = filteredData;
     } else {

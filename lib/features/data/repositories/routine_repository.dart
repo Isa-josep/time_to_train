@@ -9,35 +9,94 @@ class RoutineRepository {
 
   // Método para obtener todas las rutinas
   Future<List<Routine>> fetchRoutines() async {
-    final response = await http.get(Uri.parse('$baseUrl/routines'));
+    const query = '''
+    query {
+      obtenerRutinas {
+        id
+        nombre
+        descripcion
+        usuario_id
+        grupo_id
+        video_url
+        fecha_ejercicio
+      }
+    }
+    ''';
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/graphql'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'query': query}),
+    );
+
     if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
+      final data = json.decode(response.body)['data']['obtenerRutinas'] as List;
       return data.map((json) => Routine.fromJson(json)).toList();
     } else {
+      print('Error al obtener rutinas: ${response.body}');
       throw Exception('Failed to load routines');
     }
   }
 
   // Método para crear una rutina
   Future<http.Response> createRoutine(Map<String, dynamic> routine) async {
+    const mutation = '''
+    mutation CrearRutina(\$nombre: String!, \$descripcion: String, \$usuario_id: Int!, \$grupo_id: Int!, \$video_url: String, \$fecha_ejercicio: String) {
+      createRoutine(nombre: \$nombre, descripcion: \$descripcion, usuario_id: \$usuario_id, grupo_id: \$grupo_id, video_url: \$video_url, fecha_ejercicio: \$fecha_ejercicio) {
+        id
+        nombre
+      }
+    }
+    ''';
+
     final response = await http.post(
-      Uri.parse('$baseUrl/routines'),
+      Uri.parse('$baseUrl/graphql'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode(routine),
+      body: json.encode({
+        'query': mutation,
+        'variables': routine,
+      }),
     );
+
     return response;
   }
 
   // Método para obtener las rutinas por fecha
   Future<List<Routine>> fetchRoutinesByDate(DateTime date) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/routines?date=${date.toIso8601String()}'),
-    );
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      return data.map((json) => Routine.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load routines');
+  const query = '''
+    query ObtenerRutinasPorFecha(\$fecha: DateTime!) {
+      routinesByDate(fecha_ejercicio: \$fecha) {
+        id
+        nombre
+        descripcion
+        usuario_id
+        grupo_id
+        video_url
+        fecha_ejercicio
+      }
     }
+  ''';
+
+  final response = await http.post(
+    Uri.parse('$baseUrl/graphql'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({
+      'query': query,
+      'variables': {'fecha': date.toIso8601String()},
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    if (data['data']['routinesByDate'] == null) {
+      return [];
+    }
+    final List routines = data['data']['routinesByDate'];
+    return routines.map((json) => Routine.fromJson(json)).toList();
+  } else {
+    print('Error al obtener rutinas por fecha: ${response.body}');
+    throw Exception('Failed to load routines by date');
   }
+}
+
 }
