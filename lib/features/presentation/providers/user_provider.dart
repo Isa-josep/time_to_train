@@ -19,6 +19,7 @@ class UserNotifier extends StateNotifier<List<dynamic>> {
         id
         nombre_usuario
         rol
+        correo
       }
     }
     ''';
