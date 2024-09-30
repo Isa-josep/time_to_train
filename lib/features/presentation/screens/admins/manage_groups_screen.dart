@@ -73,7 +73,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                       itemBuilder: (context, index) {
                         final user = groupState.usersWithoutGroup[index];
                         return ListTile(
-                          title: Text(user['nombre']
+                          title: Text(user['nombre_usuario']
                               
                               ),
                           trailing: IconButton(
