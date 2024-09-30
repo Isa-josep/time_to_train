@@ -16,7 +16,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
   Future<void> loadGroups() async {
     const query = '''
     query {
-      obtenerGrupos {
+      groups {
         id
         nombre
       }
@@ -30,7 +30,7 @@ class GroupNotifier extends StateNotifier<GroupState> {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body)['data']['obtenerGrupos'];
+      final List<dynamic> data = json.decode(response.body)['data']['groups'];
       final List<Map<String, dynamic>> groups = data.map((group) {
         return {
           'id': group['id'],
