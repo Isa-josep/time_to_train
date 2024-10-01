@@ -11,7 +11,7 @@ class RoutineRepository {
   Future<List<Routine>> fetchRoutines() async {
     const query = '''
     query {
-      obtenerRutinas {
+      routines {
         id
         nombre
         descripcion
@@ -30,7 +30,7 @@ class RoutineRepository {
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body)['data']['obtenerRutinas'] as List;
+      final data = json.decode(response.body)['data']['routines'] as List;
       return data.map((json) => Routine.fromJson(json)).toList();
     } else {
       print('Error al obtener rutinas: ${response.body}');
@@ -40,26 +40,31 @@ class RoutineRepository {
 
   // Método para crear una rutina
   Future<http.Response> createRoutine(Map<String, dynamic> routine) async {
-    const mutation = '''
-    mutation CrearRutina(\$nombre: String!, \$descripcion: String, \$usuario_id: Int!, \$grupo_id: Int!, \$video_url: String, \$fecha_ejercicio: String) {
-      createRoutine(nombre: \$nombre, descripcion: \$descripcion, usuario_id: \$usuario_id, grupo_id: \$grupo_id, video_url: \$video_url, fecha_ejercicio: \$fecha_ejercicio) {
-        id
-        nombre
-      }
+  const mutation = '''
+  mutation CrearRutina(\$nombre: String!, \$descripcion: String, \$usuario_id: Int!, \$grupo_id: Int!, \$video_url: String, \$fecha_ejercicio: DateTime!) {
+    createRoutine(nombre: \$nombre, descripcion: \$descripcion, usuario_id: \$usuario_id, grupo_id: \$grupo_id, video_url: \$video_url, fecha_ejercicio: \$fecha_ejercicio) {
+      id
+      nombre
     }
-    ''';
-
-    final response = await http.post(
-      Uri.parse('$baseUrl/graphql'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'query': mutation,
-        'variables': routine,
-      }),
-    );
-
-    return response;
   }
+  ''';
+
+  // Convertir `fecha_ejercicio` a String en formato ISO8601
+  routine['fecha_ejercicio'] = routine['fecha_ejercicio'].toIso8601String();
+
+  final response = await http.post(
+    Uri.parse('$baseUrl/graphql'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({
+      'query': mutation,
+      'variables': routine,
+    }),
+  );
+
+  return response;
+}
+
+
 
   // Método para obtener las rutinas por fecha
   Future<List<Routine>> fetchRoutinesByDate(DateTime date) async {

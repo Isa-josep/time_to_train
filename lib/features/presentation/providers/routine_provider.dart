@@ -31,7 +31,7 @@ class RoutineNotifier extends StateNotifier<AsyncValue<List<Routine>>> {
 }
 
 final routineRepositoryProvider = Provider<RoutineRepository>((ref) {
-  String baseUrl = '${dotenv.env['API_URL']}graphql'; // Cambiar al endpoint de GraphQL
+  String baseUrl = '${dotenv.env['API_URL']}graphql';
   return RoutineRepository(baseUrl);
 });
 

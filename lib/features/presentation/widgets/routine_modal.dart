@@ -25,48 +25,48 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
   }
 
   Future<void> saveRoutine() async {
-    if (selectedGroup == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor selecciona un grupo')),
-      );
-      return;
-    }
+  if (selectedGroup == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Por favor selecciona un grupo')),
+    );
+    return;
+  }
 
-    // Obtener el usuario_id desde el AuthProvider
-    final usuarioId = ref.read(authProvider).usuarioId;
+  final usuarioId = ref.read(authProvider).usuarioId;
+  final routineRepository = ref.read(routineRepositoryProvider);
 
-    final routineRepository = ref.read(routineRepositoryProvider);
+  final routine = {
+    'nombre': titleController.text,
+    'descripcion': descriptionController.text.isNotEmpty ? descriptionController.text : null,
+    'usuario_id': usuarioId,
+    'grupo_id': int.parse(selectedGroup!),
+    'fecha_ejercicio': _selectedDate,  // Mantenerlo como DateTime
+  };
 
-    final routine = {
-      'nombre': titleController.text,
-      'descripcion': descriptionController.text,
-      'usuario_id': usuarioId, // Se obtiene dinámicamente del AuthProvider
-      'grupo_id': int.parse(selectedGroup!),
-      'fecha_ejercicio': _selectedDate.toIso8601String(),
-    };
+  if (selectedVideoId != null) {
+    final selectedVideo = ref.read(videosProvider).firstWhere((video) => video['id'].toString() == selectedVideoId);
+    routine['video_url'] = selectedVideo['url'];
+  }
 
-    // Solo incluir 'video_url' si se seleccionó un video
-    if (selectedVideoId != null) {
-      final selectedVideo = ref.read(videosProvider).firstWhere((video) => video['id'].toString() == selectedVideoId);
-      routine['video_url'] = selectedVideo['url'];
-    }
-
-    try {
-      final response = await routineRepository.createRoutine(routine);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        ref.invalidate(routineProvider); // Invalida el provider para recargar las rutinas
-        Navigator.pop(context);
-      } else {
-        print('Error: ${response.body}');
-        final snackBar = SnackBar(content: Text('Error al guardar la rutina: ${response.body}'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-      final snackBar = SnackBar(content: Text('Error al enviar la solicitud: $e'));
+  try {
+    final response = await routineRepository.createRoutine(routine);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      ref.invalidate(routineProvider);
+      Navigator.pop(context);
+    } else {
+      print('Error: ${response.body}');
+      final snackBar = SnackBar(content: Text('Error al guardar la rutina: ${response.body}'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  } catch (e) {
+    print('Error al enviar la solicitud: $e');
+    final snackBar = SnackBar(content: Text('Error al enviar la solicitud: $e'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+}
+
+
+
 
   // Método para mostrar el DatePicker y actualizar la fecha seleccionada
   Future<void> _selectDate(BuildContext context) async {
