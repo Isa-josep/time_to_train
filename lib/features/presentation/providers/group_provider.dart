@@ -94,12 +94,10 @@ class GroupNotifier extends StateNotifier<GroupState> {
 
   Future<void> addUserToGroup(int userId, int groupId) async {
     const mutation = '''
-    mutation AgregarUsuarioAGrupo(\$userId: Int!, \$groupId: Int!) {
-      addUserToGroup(userId: \$userId, groupId: \$groupId) {
-        success
+      mutation AgregarUsuarioAGrupo(\$userId: Int!, \$groupId: Int!) {
+        addUserToGroup(userId: \$userId, groupId: \$groupId)
       }
-    }
-    ''';
+      ''';
 
     final response = await http.post(
       Uri.parse('${dotenv.env['API_URL']}graphql'),
@@ -113,11 +111,16 @@ class GroupNotifier extends StateNotifier<GroupState> {
       }),
     );
 
-    if (response.statusCode == 200) {
-      loadUsersWithoutGroup();
-    } else {
-      throw Exception('Failed to add user to group');
-    }
+    final responseBody = json.decode(response.body);
+      print('Response body: $responseBody'); // Verifica el contenido completo de la respuesta
+
+      if (responseBody['data'] != null && responseBody['data']['addUserToGroup'] == true) {
+        loadUsersWithoutGroup();
+      } 
+      else {
+        throw Exception('Failed to add user to group');
+      }
+
   }
 }
 
