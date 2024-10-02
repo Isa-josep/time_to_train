@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart'; // Para el calendario
@@ -72,19 +73,25 @@ class _HomeViewState extends ConsumerState<HomeView> {
           ),
         ],
       ),
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
+      drawer: FadeInLeft(
+        duration: const Duration(milliseconds: 450),
+        child: SideMenu(scaffoldKey: scaffoldKey)
+        ),
       floatingActionButton: (authState.rol == 'entrenador' || authState.rol == 'admin')
-          ? FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const RoutineModal(),
-                );
-              },
-              child: const Icon(Icons.add),
+          ? FadeIn(
+              duration: const Duration(milliseconds: 500),
+              child: FloatingActionButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => const RoutineModal(),
+                    );
+                  },
+                    child: const Icon(Icons.add),
+                ),
             )
-          : null,
+        : null,
     );
   }
 

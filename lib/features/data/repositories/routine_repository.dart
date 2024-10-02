@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:time_to_train/features/models/routine_model.dart';
 
 class RoutineRepository {
@@ -41,7 +42,7 @@ class RoutineRepository {
   // Método para crear una rutina
   Future<http.Response> createRoutine(Map<String, dynamic> routine) async {
   const mutation = '''
-  mutation CrearRutina(\$nombre: String!, \$descripcion: String, \$usuario_id: Int!, \$grupo_id: Int!, \$video_url: String, \$fecha_ejercicio: DateTime!) {
+  mutation CrearRutina(\$nombre: String!, \$descripcion: String, \$usuario_id: Int!, \$grupo_id: Int!, \$video_url: String, \$fecha_ejercicio: String!) {
     createRoutine(nombre: \$nombre, descripcion: \$descripcion, usuario_id: \$usuario_id, grupo_id: \$grupo_id, video_url: \$video_url, fecha_ejercicio: \$fecha_ejercicio) {
       id
       nombre
@@ -49,8 +50,8 @@ class RoutineRepository {
   }
   ''';
 
-  // Convertir `fecha_ejercicio` a String en formato ISO8601
-  routine['fecha_ejercicio'] = routine['fecha_ejercicio'].toIso8601String();
+  // Convertir `fecha_ejercicio` a formato Año-mes-día
+  routine['fecha_ejercicio'] = DateFormat('yyyy-MM-dd').format(routine['fecha_ejercicio']);
 
   final response = await http.post(
     Uri.parse('$baseUrl/graphql'),
@@ -69,7 +70,7 @@ class RoutineRepository {
   // Método para obtener las rutinas por fecha
   Future<List<Routine>> fetchRoutinesByDate(DateTime date) async {
   const query = '''
-    query ObtenerRutinasPorFecha(\$fecha: DateTime!) {
+    query ObtenerRutinasPorFecha(\$fecha: String!) {
       routinesByDate(fecha_ejercicio: \$fecha) {
         id
         nombre
@@ -82,18 +83,22 @@ class RoutineRepository {
     }
   ''';
 
+  // Convierte la fecha a formato 'YYYY-MM-DD'
+  final formattedDate = DateFormat('yyyy-MM-dd').format(date);
+
   final response = await http.post(
     Uri.parse('$baseUrl/graphql'),
     headers: {'Content-Type': 'application/json'},
     body: json.encode({
       'query': query,
-      'variables': {'fecha': date.toIso8601String()},
+      'variables': {'fecha': formattedDate},  // Enviar fecha como 'YYYY-MM-DD'
     }),
   );
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
     if (data['data']['routinesByDate'] == null) {
+      print('No se encontraron rutinas para esta fecha.');
       return [];
     }
     final List routines = data['data']['routinesByDate'];
