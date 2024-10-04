@@ -90,7 +90,7 @@ Future<void> updateUserRole(int userId, String newRole) async {
                   trailing: authState.rol == 'admin'
                       ? DropdownButton<String>(
                           value: rol,  // Aseguramos que siempre haya un rol
-                          items: ['usuario', 'entrenador']
+                          items: ['user', 'entrenador']
                               .map(
                                 (role) => DropdownMenuItem<String>(
                                   value: role,
@@ -99,7 +99,7 @@ Future<void> updateUserRole(int userId, String newRole) async {
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      color: role == 'usuario'
+                                      color: role == 'user'
                                           ? Colors.green
                                           : Colors.blue,
                                     ),

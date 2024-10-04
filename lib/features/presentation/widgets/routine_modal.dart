@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_to_train/features/presentation/providers.dart';
 import 'package:time_to_train/features/presentation/widgets.dart';
-
+import 'package:animate_do/animate_do.dart';
 class RoutineModal extends ConsumerStatefulWidget {
   const RoutineModal({super.key});
 
@@ -93,133 +93,135 @@ class _RoutineModalState extends ConsumerState<RoutineModal> {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: DraggableScrollableSheet(
-        initialChildSize: 0.9, // Ajustado para abrirse más arriba
-        maxChildSize: 0.95,
-        minChildSize: 0.6,
-        builder: (_, controller) => SingleChildScrollView(
-          controller: controller,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              color: scaffoldBackgroundColor, // Fondo blanco puro
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Agregar Rutina', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 20),
-                    groupState.groups.isEmpty
-                        ? const CircularProgressIndicator()
-                        : DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              labelText: 'Seleccionar Grupo',
-                              border: OutlineInputBorder(),
+      child: FadeInUp(
+        child: DraggableScrollableSheet(
+          initialChildSize: 0.9, // Ajustado para abrirse más arriba
+          maxChildSize: 0.95,
+          minChildSize: 0.6,
+          builder: (_, controller) => SingleChildScrollView(
+            controller: controller,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                color: scaffoldBackgroundColor, // Fondo blanco puro
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('Agregar Rutina', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 20),
+                      groupState.groups.isEmpty
+                          ? const CircularProgressIndicator()
+                          : DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Seleccionar Grupo',
+                                border: OutlineInputBorder(),
+                              ),
+                              value: selectedGroup,
+                              items: groupState.groups.map<DropdownMenuItem<String>>((group) {
+                                return DropdownMenuItem<String>(
+                                  value: group['id'].toString(),
+                                  child: Text(group['nombre'], style: const TextStyle(fontSize: 16)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedGroup = value;
+                                });
+                              },
+                              validator: (value) => value == null ? 'Por favor selecciona un grupo' : null,
                             ),
-                            value: selectedGroup,
-                            items: groupState.groups.map<DropdownMenuItem<String>>((group) {
-                              return DropdownMenuItem<String>(
-                                value: group['id'].toString(),
-                                child: Text(group['nombre'], style: const TextStyle(fontSize: 16)),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedGroup = value;
-                              });
-                            },
-                            validator: (value) => value == null ? 'Por favor selecciona un grupo' : null,
-                          ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: titleController,
-                      label: 'Nombre',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa un nombre';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0x0fffffff),
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextFormField(
-                        controller: descriptionController,
-                        maxLines: 5,
-                        decoration: const InputDecoration(
-                          labelText: 'Descripción',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10.0),
-                        ),
+                      const SizedBox(height: 20),
+                      CustomTextFormField(
+                        controller: titleController,
+                        label: 'Nombre',
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Por favor ingresa una descripción';
+                            return 'Por favor ingresa un nombre';
                           }
                           return null;
                         },
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Selector de fecha
-                    Row(
-                      children: [
-                        Text('Fecha: ${_selectedDate.toLocal()}'.split(' ')[0]),
-                        const SizedBox(width: 16),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context),
-                          child: const Text('Seleccionar fecha'),
+                      const SizedBox(height: 20),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0x0fffffff),
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(color: Colors.grey),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    // Selector de video
-                    videosState.isEmpty
-                        ? const CircularProgressIndicator()
-                        : DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              labelText: 'Seleccionar Video',
-                              border: OutlineInputBorder(),
-                            ),
-                            value: selectedVideoId,
-                            items: videosState.map<DropdownMenuItem<String>>((video) {
-                              return DropdownMenuItem<String>(
-                                value: video['id'].toString(),
-                                child: Text(video['titulo'], style: const TextStyle(fontSize: 16)),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedVideoId = value;
-                              });
-                            },
-                            validator: (value) => value == null ? 'Por favor selecciona un video' : null,
+                        child: TextFormField(
+                          controller: descriptionController,
+                          maxLines: 5,
+                          decoration: const InputDecoration(
+                            labelText: 'Descripción',
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(10.0),
                           ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomFilledButton(
-                          onPressed: () {
-                            Navigator.pop(context);
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor ingresa una descripción';
+                            }
+                            return null;
                           },
-                          text: 'Cancelar',
                         ),
-                        CustomFilledButton(
-                          onPressed: saveRoutine,
-                          text: 'Guardar Rutina',
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(height: 20),
+                      // Selector de fecha
+                      Row(
+                        children: [
+                          Text('Fecha: ${_selectedDate.toLocal()}'.split(' ')[0]),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            onPressed: () => _selectDate(context),
+                            child: const Text('Seleccionar fecha'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      // Selector de video
+                      videosState.isEmpty
+                          ? const CircularProgressIndicator()
+                          : DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Seleccionar Video',
+                                border: OutlineInputBorder(),
+                              ),
+                              value: selectedVideoId,
+                              items: videosState.map<DropdownMenuItem<String>>((video) {
+                                return DropdownMenuItem<String>(
+                                  value: video['id'].toString(),
+                                  child: Text(video['titulo'], style: const TextStyle(fontSize: 16)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedVideoId = value;
+                                });
+                              },
+                              validator: (value) => value == null ? 'Por favor selecciona un video' : null,
+                            ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomFilledButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            text: 'Cancelar',
+                          ),
+                          CustomFilledButton(
+                            onPressed: saveRoutine,
+                            text: 'Guardar Rutina',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

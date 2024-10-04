@@ -57,11 +57,15 @@ class VideosNotifier extends StateNotifier<List<Map<String, dynamic>>> {
       }),
     );
 
-    if (response.statusCode == 201) {
-      fetchVideos();
-    } else {
-      throw Exception('Error al agregar video');
-    }
+    final Map<String, dynamic> body = json.decode(response.body);
+
+if (body.containsKey('errors')) {
+  print('Errores: ${body['errors']}');
+  throw Exception('Error al agregar video');
+} else {
+  fetchVideos();
+}
+
   }
 
   Future<void> updateVideo(int id, String titulo, String url) async {
