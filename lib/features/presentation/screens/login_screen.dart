@@ -29,12 +29,11 @@ class LoginScreen extends StatelessWidget {
                   const Spacer(flex: 2),
                 ],
               ),
-              const Icon(
-                Icons.fitness_center,
-                color: Colors.white,
-                size: 100,
+              Image.asset(
+                'assets/man.gif',
+                width: 200,
+                height: 150,
               ),
-              const SizedBox(height: 80),
               Container(
                 height: size.height - 260,
                 width: double.infinity,

@@ -35,3 +35,4 @@ flutter:
   assets:
     - google_fonts/montserrat_alternates/
     - .env
+    - assets/man.gif
