@@ -58,6 +58,11 @@ const appMenuItems = <MenuItem>[
     icon: Icons.logout_outlined
   ),
   
-  
+  MenuItem(
+    title: 'Pr', 
+    subTitle: 'Personal Record', 
+    link: '/personal_record_screen', 
+    icon: Icons.add_circle_outline
+  )
 
 ];

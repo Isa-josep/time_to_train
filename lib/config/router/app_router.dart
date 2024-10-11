@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:time_to_train/features/presentation/screens.dart';
 import 'package:time_to_train/features/presentation/providers/auth_provider.dart';
+import 'package:time_to_train/features/presentation/screens/personal_record_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -55,6 +56,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/manager_videos',
         builder: (context, state) => const ManagerVideos()
+      ),
+      GoRoute(
+        path: '/personal_record_screen',
+        builder: (context, state) =>  PersonalRecordScreen()
       ),
     ],
   );
